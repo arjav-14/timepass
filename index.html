@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LaundryPress — Smart Laundry Tracker</title>
+  <meta name="description" content="Track your laundry items — shirts, pants, and more — to verify your laundry person returned everything." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">👕</span>
+        <span class="logo-text">LaundryPress</span>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill" id="totalStat">
+          <span class="pill-label">Total Items</span>
+          <span class="pill-val" id="totalCount">0</span>
+        </div>
+        <div class="stat-pill returned" id="returnedStat">
+          <span class="pill-label">Returned</span>
+          <span class="pill-val" id="returnedCount">0</span>
+        </div>
+        <div class="stat-pill pending" id="pendingStat">
+          <span class="pill-label">Pending</span>
+          <span class="pill-val" id="pendingCount">0</span>
+        </div>
+        <span class="sync-status" id="syncStatus">💾 Local Only</span>
+        <button class="btn-refresh" title="Refresh from Google Sheets" onclick="refreshData()">🔄</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO BANNER -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Track Your <span class="gradient-text">Laundry</span> Effortlessly</h1>
+      <p>Add items given to your laundry person and verify every piece is returned safely.</p>
+    </div>
+    <div class="hero-illustration">
+      <div class="wash-animation">
+        <span>🫧</span><span>👗</span><span>👖</span><span>👔</span><span>🧦</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="main-container">
+
+    <!-- ADD BATCH SECTION -->
+    <section class="card add-card">
+      <div class="card-header">
+        <h2>➕ Add Laundry Batch</h2>
+        <p>Enter details of items you're giving to the laundry person</p>
+      </div>
+
+      <div class="form-group">
+        <label for="batchName">Batch / Customer Name</label>
+        <input type="text" id="batchName" placeholder="e.g., Morning Batch — John" autocomplete="off"/>
+      </div>
+
+      <div class="form-group">
+        <label>Select & Quantity</label>
+        <div class="item-grid" id="itemGrid">
+          <!-- Items will be rendered by JS -->
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="dateGiven">Date Given</label>
+        <input type="date" id="dateGiven" />
+      </div>
+
+      <div class="form-group">
+        <label for="expectedReturn">Expected Return Date</label>
+        <input type="date" id="expectedReturn" />
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" rows="2" placeholder="e.g., Blue shirt has a stain on collar..."></textarea>
+      </div>
+
+      <button class="btn-primary" onclick="addBatch()">
+        <span>🧺</span> Add Batch
+      </button>
+    </section>
+
+    <!-- FILTER & SEARCH -->
+    <section class="filter-bar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search batch or item..." oninput="renderBatches()" />
+      </div>
+      <div class="filter-tabs">
+        <button class="tab active" onclick="setFilter('all', this)">All</button>
+        <button class="tab" onclick="setFilter('pending', this)">Pending</button>
+        <button class="tab" onclick="setFilter('partial', this)">Partial</button>
+        <button class="tab" onclick="setFilter('done', this)">Completed</button>
+      </div>
+    </section>
+
+    <!-- BATCHES LIST -->
+    <section id="batchList" class="batch-list">
+      <!-- Populated by JS -->
+    </section>
+
+    <!-- EMPTY STATE -->
+    <div id="emptyState" class="empty-state">
+      <div class="empty-icon">🧺</div>
+      <h3>No batches yet</h3>
+      <p>Add your first laundry batch above to get started!</p>
+    </div>
+
+  </main>
+
+  <!-- MARK RETURN MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modalTitle">Verify Return</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Dynamic content -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveReturn()">✅ Save Return Status</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
