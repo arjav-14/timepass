@@ -5,7 +5,7 @@
 // ───────────────────────────────────────────────────────
 //  🔧 CONFIGURATION — paste your Apps Script Web App URL here
 // ───────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3qVqhT2ig5sAr3KYc4SE9v25FQTJUdjAeHVtXAXF-QFe__nCV0F4YVa32nFG2Xw0i/exec';
 // Example: 'https://script.google.com/macros/s/AKfycb.../exec'
 
 // ───────────────────────────────────────────────────────
